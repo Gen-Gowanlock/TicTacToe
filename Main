@@ -1,0 +1,280 @@
+/*
+Grace Gowanlock
+
+TicTacToe-
+Implements a Tic-Tac-Toe game in C.  Coded for 2 players.  Player 1 is X,
+Player 2 is O.  Each player takes a turn placing their character.
+If a symbol already exists in that space, another symbol cannot be placed
+there.  Winning is defined as 3 squares across, down, or diagnol.
+*/
+#include <stdio.h>
+//#include <string.h>
+
+//squares of tic-tac-toe board
+char square[10] = { 'N', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+
+//functions list
+int evalBoard();
+void updateBoard(int IN, char player);
+int getValidInput(char player);
+void printOutcome(int result);
+void drawBoard();
+
+int main() {
+    char Player1 = 'X';
+    char Player2 = 'O';
+    int player = 1, out = 0, IN;
+
+    printf("\nType q at any time to quit");
+
+    while (out == 0){ //will continue until game ends
+        drawBoard();
+
+        if (player%2 == 0){
+          //printf("Test3\n");
+          IN = getValidInput(Player2);
+          if (IN == -1){ //if quit program ends
+            printOutcome(out);//can be any number other than 1-3
+            return 0;
+          }
+          updateBoard(IN, Player2);
+
+        }
+        else{
+          IN = getValidInput(Player1);
+          if (IN == -1){ //if quit program ends
+            printOutcome(out);//can be any number other than 1-3
+            return 0;
+          }
+          updateBoard(IN, Player1);
+        }
+
+        out = evalBoard(); //returns 0 is game is still being played
+
+        player++; //increments player so game will switch from
+                  //player 1 to player 2
+    }
+
+    drawBoard(); //draws final board
+
+    printOutcome(out); //prints results
+
+
+    return 0;
+}
+
+void printOutcome(int result){
+  //prints outcome of game based on result variable
+  if (result == 1)
+    //1 means player 1/X wins
+    printf("==>\aPlayer X wins! \n");
+  if (result == 2){
+    //2 means player 2/O wins
+    printf("==>\aPlayer O wins! \n");
+  }
+  if (result == 3){
+    //no one wins
+    printf("==>\aGame draw - Cat Game\n");
+  }
+    //player quit or game ends
+    printf("Goodbye\n");
+}
+
+int getValidInput(char player){
+  char choice[10]; //string with player move
+  int keepgoing = 1; //boolean used to keep
+  int IN = 0; //return value
+
+  while(keepgoing == 1){
+
+    printf("%c - Which square? [1-9]  \n", player);
+    scanf( "%s", choice);
+
+
+    if (choice[0] == '1' && square[1] == '1' && choice[1] == '\0'){
+      //if choice == 1 and the squre is not occupied then IN is set to 1
+      //same for all other if statements
+      IN = 1;
+      keepgoing = 0;
+    }
+    else if (choice[0] == '2' && square[2] == '2' && choice[1] == '\0'){
+      IN = 2;
+      keepgoing = 0;
+    }
+    else if (choice[0] == '3' && square[3] == '3' && choice[1] == '\0'){
+      IN = 3;
+      keepgoing = 0;
+    }
+    else if (choice[0] == '4' && square[4] == '4' && choice[1] == '\0'){
+      IN = 4;
+      keepgoing = 0;
+    }
+    else if (choice[0] == '5' && square[5] == '5' && choice[1] == '\0'){
+      IN = 5;
+      keepgoing = 0;
+    }
+    else if (choice[0] == '6' && square[6] == '6' && choice[1] == '\0'){
+      IN = 6;
+      keepgoing = 0;
+    }
+    else if (choice[0] == '7' && square[7] == '7' && choice[1] == '\0'){
+      IN = 7;
+      keepgoing = 0;
+    }
+    else if (choice[0] == '8' && square[8] == '8' && choice[1] == '\0'){
+      IN = 8;
+      keepgoing = 0;
+    }
+    else if (choice[0] == '9' && square[9] == '9' && choice[1] == '\0'){
+      IN = 9;
+      keepgoing = 0;
+    }
+    else if (choice[0] == 'q'){
+      IN = -1;
+      keepgoing = 0;
+    }
+    else if (choice[0] > '9' || choice[0] < '1' || choice[1] != '\0'){
+      //if chioce is not between 1-9 then print invalid move
+      printf("Invalid move, enter another space \n");
+      //keepgoing =0;
+    }
+    else{
+      //if choice space is already occupied, print space occupied
+      printf("Space occupied, enter another space \n");
+    }
+
+
+}
+//returns IN which is space number
+return IN;
+}
+
+
+int evalBoard(){
+  //checks to see if game has been won
+  if (square[1] == square[2] && square[2] == square[3]){
+      if (square[1] == 'X'){
+        //if winner is X return 1
+        return 1;
+      }
+      else{
+        //if winner is O return 2
+        return 2;
+      }
+  }
+  else if (square[4] == square[5] && square[5] == square[6]){
+    if (square[4] == 'X'){
+      //if winner is X return 1
+      return 1;
+    }
+    else{
+      //if winner is O return 2
+      return 2;
+    }
+  }
+
+  else if (square[7] == square[8] && square[8] == square[9]){
+    if (square[7] == 'X'){
+      //if winner is X return 1
+      return 1;
+    }
+    else{
+      //if winner is O return 2
+      return 2;
+    }
+  }
+
+  else if (square[1] == square[4] && square[4] == square[7]){
+    if (square[1] == 'X'){
+      //if winner is X return 1
+      return 1;
+    }
+    else{
+      //if winner is O return 2
+      return 2;
+    }
+  }
+
+  else if (square[2] == square[5] && square[5] == square[8]){
+    if (square[2] == 'X'){
+      //if winner is X return 1
+      return 1;
+    }
+    else{
+      //if winner is O return 2
+      return 2;
+    }
+  }
+
+  else if (square[3] == square[6] && square[6] == square[9]){
+    if (square[3] == 'X'){
+      //if winner is X return 1
+      return 1;
+    }
+    else{
+      //if winner is O return 2
+      return 2;
+    }
+  }
+
+  else if (square[1] == square[5] && square[5] == square[9]){
+    if (square[1] == 'X'){
+      //if winner is X return 1
+      return 1;
+    }
+    else{
+      //if winner is O return 2
+      return 2;
+    }
+  }
+
+  else if (square[3] == square[5] && square[5] == square[7]){
+    if (square[3] == 'X'){
+      //if winner is X return 1
+      return 1;
+    }
+    else{
+      //if winner is O return 2
+      return 2;
+    }
+  }
+
+  else if (square[1] != '1' && square[2] != '2' && square[3] != '3' &&
+      square[4] != '4' && square[5] != '5' && square[6] != '6' && square[7]
+      != '7' && square[8] != '8' && square[9] != '9'){
+      //if there is a cat game return 3
+      return 3;
+  }
+  else{
+      //there is no winner yet and moves can still be made
+      return  0;
+  }
+}
+
+void updateBoard(int IN, char player){
+  //puts player char in choosen spot
+  square[IN] = player;
+}
+
+void drawBoard(){
+  //draws the board
+  printf("\n\n\tTic Tac Toe\n\n");
+
+  printf("Player 1 (X)  -  Player 2 (O)\n\n\n");
+
+
+  printf("     |     |     \n");
+  printf("  %c  |  %c  |  %c \n", square[1], square[2], square[3]);
+
+  printf("_____|_____|_____\n");
+  printf("     |     |     \n");
+
+  printf("  %c  |  %c  |  %c \n", square[4], square[5], square[6]);
+
+  printf("_____|_____|_____\n");
+  printf("     |     |     \n");
+
+  printf("  %c  |  %c  |  %c \n", square[7], square[8], square[9]);
+
+  printf("     |     |     \n\n");
+}
